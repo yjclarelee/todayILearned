@@ -3,7 +3,9 @@ import {Button, Form, Modal} from "react-bootstrap";
 import Nav from "../components/Nav";
 import TILCard from '../components/TILCard';
 import Footer from "../components/Footer";
-import axios from "axios";
+
+import { dbService } from "../fbase";
+import { addDoc, getDocs, query, collection } from "firebase/firestore";
 
 const Main = () => {
   const [cardData, setCardData] = useState([]);
@@ -11,18 +13,26 @@ const Main = () => {
   const showModal = () => setIsModal(true);
   const hideModal = () => setIsModal(false);
 
+  const padTime = (time) => time.toString().length <= 1 ? '0' + time : time;
+
   const getData = async () => {
-    const res = await axios.get("http://localhost:4000/posts?_sort=id&_order=desc");
-    setCardData(res.data);
+    setCardData([]);
+    const res = await getDocs(query(collection(dbService, "posts")));
+    // res.forEach(elem => setCardData([...cardData, elem.data()]));
+    res.forEach(elem => setCardData(prevData => [...prevData, elem.data()]));
   }
 
   const postData = async (e) => {
+    const date = new Date();
     e.preventDefault();
-    await axios.post("http://localhost:4000/posts", {
+
+    await addDoc(collection(dbService, "posts"), {
+      "key": Date.now(),
       "id": Date.now(), 
       "title": e.target[0].value,
-      "body": e.target[1].value
-    })
+      "body": e.target[1].value,
+      "published_at": `${date.getFullYear()}-${padTime(date.getMonth()+1)}-${padTime(date.getDate()+1)}`
+    });
     hideModal();
     getData();
   }
@@ -37,7 +47,7 @@ const Main = () => {
     {
       cardData.map(card => 
         <TILCard
-          key={card.id} 
+          key={card.key}
           id={card.id}
           title={card.title}
           body={card.body}
