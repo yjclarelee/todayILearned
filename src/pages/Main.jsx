@@ -18,7 +18,7 @@ const Main = () => {
 
   return <div>
     <Navbar></Navbar>
-    <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }}>
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", marginLeft: "3.5rem", marginRight: "3.5rem"}}>
     {
       cardData.map(card => 
         <TILCard
