@@ -12,8 +12,19 @@ const Main = () => {
   const hideModal = () => setIsModal(false);
 
   const getData = async () => {
-    const res = await axios.get("http://localhost:4000/posts");
+    const res = await axios.get("http://localhost:4000/posts?_sort=id&_order=desc");
     setCardData(res.data);
+  }
+
+  const postData = async (e) => {
+    e.preventDefault();
+    await axios.post("http://localhost:4000/posts", {
+      "id": Date.now(), 
+      "title": e.target[0].value,
+      "body": e.target[1].value
+    })
+    hideModal();
+    getData();
   }
 
   useEffect(() => {
@@ -37,7 +48,7 @@ const Main = () => {
         <Modal.Title>새 글</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form>
+        <Form onSubmit={postData}>
           <Form.Group className="mb-3" controlId="title">
             <Form.Label>제목</Form.Label>
             <Form.Control type="text"/>
