@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, {useState} from "react";
 import {Button, Card, Modal} from "react-bootstrap";
 
@@ -5,6 +6,13 @@ const TILCard = (props) => {
   const [isModal, setIsModal] = useState(false);
   const showModal = () => setIsModal(true);
   const hideModal = () => setIsModal(false);
+
+  const deletePost = async () => {
+    console.log('props id', props.id)
+    await axios.delete(`http://localhost:4000/posts/${props.id}`);
+    hideModal();
+    props.getData();
+  }
 
   return <>
       <Card onClick={showModal} className="m-3">
@@ -24,11 +32,8 @@ const TILCard = (props) => {
         <div>{props.body}</div>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={hideModal}>
-          Close
-        </Button>
-        <Button variant="primary" onClick={hideModal}>
-          Save Changes
+        <Button variant="outline-warning" onClick={deletePost}>
+          삭제하기
         </Button>
       </Modal.Footer>
     </Modal>
