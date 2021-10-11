@@ -39,6 +39,7 @@
     "@nivo/calendar": "^0.74.0",
     "axios": "^0.22.0",
     "bootstrap": "^5.1.1",
+    "firebase": "^9.1.2",
     "json-server": "^0.17.0",
     "moment": "^2.29.1",
     "react-bootstrap": "^2.0.0-rc.0"

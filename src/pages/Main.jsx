@@ -5,6 +5,22 @@ import TILCard from '../components/TILCard';
 import Footer from "../components/Footer";
 import axios from "axios";
 
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+
+const firebaseConfig = {
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID,
+  measurementId: process.env.REACT_APP_MEASUREMENT_ID
+}
+
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+
 const Main = () => {
   const [cardData, setCardData] = useState([]);
   const [isModal, setIsModal] = useState(false);
@@ -17,11 +33,13 @@ const Main = () => {
   }
 
   const postData = async (e) => {
+    const date = new Date();
     e.preventDefault();
     await axios.post("http://localhost:4000/posts", {
       "id": Date.now(), 
       "title": e.target[0].value,
-      "body": e.target[1].value
+      "body": e.target[1].value,
+      "published_at": `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()+1}`
     })
     hideModal();
     getData();
