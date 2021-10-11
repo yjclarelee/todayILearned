@@ -38,8 +38,10 @@ const Main = () => {
       cardData.map(card => 
         <TILCard
           key={card.id} 
+          id={card.id}
           title={card.title}
           body={card.body}
+          getData={getData}
         />)
     }
     </div>
