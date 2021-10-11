@@ -24,7 +24,7 @@ A blog where you enter short logs of what you have learned every day
 - My page
 
 ## Tech Stack
-React, React-Bootstrap, ~~json-server, axios~~Firebase
+React, React-Bootstrap, ~~json-server, axios~~ Firebase
 
 ## Inspiration
 Group project [shortTIL](https://github.com/Couch-Coding-Tech-Blog/shortTIL) that I worked on
